@@ -1,7 +1,5 @@
 package com.mycompany.crudpostgres.service;
 
-import static com.mycompany.crudpostgres.Astat.counter;
-
 import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.List;
@@ -22,6 +20,12 @@ public class ClientService {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	StatData stat;
+
+	@Autowired
+	LongProcess longProcess;
 
 	public void createClients() {
 		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS clients (" + "id_client serial PRIMARY KEY, " + "snils varchar(255) NOT NULL, " + "fio varchar(255) NOT NULL, " + "birthday date);");
@@ -85,8 +89,8 @@ public class ClientService {
 
 	private void appendCounter(int rows) {
 		if (rows > 0) {
-			counter = counter + 1;
-			LongProcess.checkLongProcess();
+			stat.counter = stat.counter + 1;
+			longProcess.checkLongProcess();
 		}
 	}
 

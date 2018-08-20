@@ -6,24 +6,27 @@ import java.io.InputStreamReader;
 import java.util.Properties;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-/***
- * @author Leonid Ivanov
- */
+import com.mycompany.crudpostgres.service.StatData;
+
 @Configuration
 @ComponentScan("com.mycompany")
 @EnableWebMvc
 public class MyConfig {
 
+	@Autowired
+	StatData stat;
+
 	private Properties loadConfig() {
 		try {
 			Properties properties = new Properties();
-			properties.load(new InputStreamReader(new FileInputStream(com.mycompany.crudpostgres.Astat.CONFIG_FILE_PATH), System.getProperty("file.encoding", "UTF-8")));
+			properties.load(new InputStreamReader(new FileInputStream(stat.CONFIG_FILE_PATH), System.getProperty("file.encoding", "UTF-8")));
 			return properties;
 		} catch (IOException | NullPointerException e) {
 			System.out.println("Warning: config file is not loaded...");

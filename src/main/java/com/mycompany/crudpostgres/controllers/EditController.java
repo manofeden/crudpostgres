@@ -14,9 +14,6 @@ import com.mycompany.crudpostgres.LongProcess;
 import com.mycompany.crudpostgres.model.Client;
 import com.mycompany.crudpostgres.service.ClientService;
 
-/**
- * @author Leonid Ivanov
- */
 @Controller
 @RequestMapping("/edit_client")
 public class EditController {
@@ -24,9 +21,12 @@ public class EditController {
 	@Autowired
 	ClientService service;
 
+	@Autowired
+	LongProcess longProcess;
+
 	@RequestMapping(params = "save", method = RequestMethod.POST)
 	public RedirectView save(@Valid Client c, BindingResult bindingResult, Model model) {
-		if (LongProcess.isLongProcessWork()) {
+		if (longProcess.isLongProcessWork()) {
 			return new RedirectView("/wait", true);
 		}
 

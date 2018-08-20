@@ -5,19 +5,27 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * @author Leonid Ivanov
- */
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import com.mycompany.crudpostgres.service.StatData;
+
+@Component
+@Scope("singleton")
 public class LongProcess {
 	private Thread longProcess;
 	private static final String PROCESS_NAME = "MyLongProcess";
 
-	public LongProcess() {
+	@Autowired
+	StatData stat;
+
+	public void startProcess() {
 		longProcess = new Thread(() -> {
 			try {
 				System.out.println("Start of the process...");
 				Thread.sleep(60000);
-				Astat.counter = 0;
+				stat.counter = 0;
 				System.out.println("End of the process.");
 			} catch (InterruptedException ex) {
 				System.out.println("<<< Process interrupted ! >>>");
@@ -26,20 +34,16 @@ public class LongProcess {
 		});
 		longProcess.setName(PROCESS_NAME);
 		longProcess.setPriority(Thread.NORM_PRIORITY - 2);
-	}
-
-	public void start() {
 		longProcess.start();
 	}
 
-	public static void checkLongProcess() {
-		if (Astat.counter == Astat.COUNTER_MAX_VALUE) {
-			LongProcess process = new LongProcess();
-			process.start();
+	public void checkLongProcess() {
+		if (stat.counter == stat.COUNTER_MAX_VALUE) {
+			startProcess();
 		}
 	}
 
-	public static boolean isLongProcessWork() {
+	public boolean isLongProcessWork() {
 		Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
 
 		Iterator<Thread> iterator = threadSet.iterator();
