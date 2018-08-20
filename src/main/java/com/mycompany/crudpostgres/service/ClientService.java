@@ -11,10 +11,6 @@ import org.springframework.stereotype.Service;
 import com.mycompany.crudpostgres.LongProcess;
 import com.mycompany.crudpostgres.model.Client;
 
-/**
- *
- * @author Leonid Ivanov
- */
 @Service
 public class ClientService {
 
