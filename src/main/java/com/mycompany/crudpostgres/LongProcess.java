@@ -25,7 +25,7 @@ public class LongProcess {
 			try {
 				System.out.println("Start of the process...");
 				Thread.sleep(60000);
-				stat.counter = 0;
+				stat.clearCounter();
 				System.out.println("End of the process.");
 			} catch (InterruptedException ex) {
 				System.out.println("<<< Process interrupted ! >>>");
@@ -38,7 +38,7 @@ public class LongProcess {
 	}
 
 	public void checkLongProcess() {
-		if (stat.counter == stat.COUNTER_MAX_VALUE) {
+		if (stat.getCounter() == stat.COUNTER_MAX_VALUE) {
 			startProcess();
 		}
 	}

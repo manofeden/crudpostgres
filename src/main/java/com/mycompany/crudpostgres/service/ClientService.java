@@ -85,7 +85,7 @@ public class ClientService {
 
 	private void appendCounter(int rows) {
 		if (rows > 0) {
-			stat.counter = stat.counter + 1;
+			stat.incrementCounter();
 			longProcess.checkLongProcess();
 		}
 	}
